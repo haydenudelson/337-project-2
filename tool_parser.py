@@ -61,10 +61,15 @@ class RecipeFetcher:
                     doc = nlp('My ' + prev + ' ' + tool)
                     # print(doc)
                     tag = doc[1].pos_
-                    if tag == 'ADJ':
-                        found_tools.append(prev + ' ' + tool)
-                    else:
-                        found_tools.append(tool)
+
+                    'Add on any adjectives before the tool'
+                    while tag == 'ADJ' and i > 0:
+                        tool = prev + ' ' + tool
+                        i -= 1
+                        prev = tokenized[i - 1]
+                        doc = nlp('My ' + prev + ' ' + tool)
+                        tag = doc[1].pos_
+                    found_tools.append(tool)
 
         # remove less specific tools (if there is both "pan" and "baking pan", remove "pan")
         for tool1 in found_tools:
