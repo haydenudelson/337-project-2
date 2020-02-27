@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 import spacy
 import pprint
-import re
 
 
 class RecipeFetcher:
@@ -31,7 +30,7 @@ class RecipeFetcher:
         return total
 
     def scrape_ingredient(self, ingredient):
-        nlp = spacy.load('en')
+        nlp = spacy.load('en_core_web_sm')
         units = {'cup', 'teaspoon', 'tablespoon', 'pound', 'ounce', 'clove', 'jar', 'package', 'packet'}
         temp = set()
         for each in units:
