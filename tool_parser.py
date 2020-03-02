@@ -36,7 +36,7 @@ def scrape_tools(directions):
     nlp = spacy.load('en_core_web_sm')
     found_tools = []
     for direction in directions:
-        # print(direction)
+        print(direction)
         tokenized = re.findall(r"\w+", direction)
         for tool in tools:
             tool_tokenized = re.findall(r"\w+", tool)
