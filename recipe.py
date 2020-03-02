@@ -26,7 +26,9 @@ def print_recipe(input_recipe):
 options_list = ['To vegetarian',
                 'From vegetarian to non-vegetarian',
                 'To healthy',
-                'From healthy to un-healthy']
+                'From healthy to un-healthy',
+                'To chinese',
+                'To vegan']
 
 options = ''
 for i in range(len(options_list)):

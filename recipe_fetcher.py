@@ -10,7 +10,7 @@ class RecipeFetcher:
         results['ingredients'] = [ingredient.text for ingredient in
                                   page_graph.find_all('span', {'itemprop': 'recipeIngredient'}) or
                                   page_graph.find_all('span', {'class': 'ingredients-item-name'})]
-        results['directions'] = [direction.text.strip() for direction in
+        results['directions'] = [direction.text.strip('\n ') for direction in
                                  page_graph.find_all('li', {'class': 'step'})
                                  or page_graph.find_all('li', {'class': 'subcontainer instructions-section-item'})]
         return results
