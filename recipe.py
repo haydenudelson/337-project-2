@@ -26,7 +26,8 @@ def print_recipe(input_recipe):
 options_list = ['To vegetarian',
                 'From vegetarian to non-vegetarian',
                 'To healthy',
-                'From healthy to un-healthy']
+                'From healthy to un-healthy',
+                'To Chinese']
 
 options = ''
 for i in range(len(options_list)):
@@ -50,6 +51,7 @@ while True:
 
     print('You chose: ' + choice)
 
+    print(recipe)
     recipe = transform_recipe(recipe, choice)
     print_recipe(recipe)
 
