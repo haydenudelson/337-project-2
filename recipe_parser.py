@@ -10,8 +10,8 @@ def parsed_recipe(url):
     scraped = rf.scrape_recipe(url)
     ingredients = ingred_parse.scrape_ingredients(scraped['ingredients'])
     tools = tool_parse.scrape_tools(scraped['directions'])
-    methods = method_parse.scrape_methods(scraped)
-    steps = step_parse.scrape_steps(scraped)
+    methods = method_parse.scrape_methods(scraped['directions'])
+    steps = step_parse.scrape_steps(scraped['directions'], tools, ingredients, methods)
 
     recipe = {'ingredients': ingredients,
               'tools': tools,
