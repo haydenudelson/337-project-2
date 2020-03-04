@@ -40,7 +40,7 @@ def scrape_tools(directions):
         tokenized = re.findall(r"\w+", direction)
         for tool in tools:
             tool_tokenized = re.findall(r"\w+", tool)
-            if tool in direction and tool not in found_tools:
+            if tool in tokenized and tool not in found_tools:
                 i = tokenized.index(tool_tokenized[0])
                 prev = tokenized[i-1]
                 doc = nlp('My ' + prev + ' ' + tool)
