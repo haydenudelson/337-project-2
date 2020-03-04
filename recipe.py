@@ -28,6 +28,8 @@ options_list = ['To vegetarian',
                 'To healthy',
                 'From healthy to un-healthy',
                 'To chinese',
+                'Double the recipe',
+                'Halve the recipe',
                 'To vegan']
 
 options = ''

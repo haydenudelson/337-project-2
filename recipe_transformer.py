@@ -20,6 +20,12 @@ def transform_recipe(recipe, transformation):
         return recipe
         # new_recipe = rt.from_healthy(recipe)
         # return new_recipe
+    elif transformation == 'Double the recipe':
+        new_recipe = rt.double(recipe)
+        return new_recipe
+    elif transformation == 'Halve the recipe':
+        new_recipe = rt.halve(recipe)
+        return new_recipe
     elif transformation == 'To chinese':
         new_recipe = rt.to_chinese(recipe)
         return new_recipe

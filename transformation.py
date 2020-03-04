@@ -194,6 +194,20 @@ class Transformer:
 
         return recipe
 
+    def double(self, recipe):
+        for ingredient in recipe['ingredients']:
+            quantity = recipe['ingredients'][ingredient]['Quantity']
+            if isinstance(quantity, int) or isinstance(quantity, float):
+                recipe['ingredients'][ingredient]['Quantity'] = quantity * 2
+        return recipe
+
+    def halve(self, recipe):
+        for ingredient in recipe['ingredients']:
+            quantity = recipe['ingredients'][ingredient]['Quantity']
+            if isinstance(quantity, int) or isinstance(quantity, float):
+                recipe['ingredients'][ingredient]['Quantity'] = quantity * 0.5
+        return recipe
+
     def to_vegan(self, recipe):
         recipe = self.to_vegetarian(recipe)
         ingredients = recipe["ingredients"].keys()
