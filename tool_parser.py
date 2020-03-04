@@ -2,7 +2,7 @@ import spacy
 import re
 
 # from https://en.wikipedia.org/wiki/Cookware_and_bakeware
-cookware = ['oven', 'stove', 'stovetop', 'convection oven',
+cookware = ['oven', 'stove', 'stovetop', 'convection oven', 'broiler pan',
             'braising pan', 'braiser', 'roaster', 'rondeau pan', 'cassarole pot', 'dilipot', 'frypan', 'skillet',
             'omelette pan', 'grill pan', 'waffle maker', 'saucepot', 'cake tin', 'cake pan', 'muffin tin',
             'swiss roll tin', 'pie pan',
@@ -32,19 +32,26 @@ utensils = ['apple corer', 'apple cutter', 'baster', 'beanpot', 'biscuit press',
 tools = cookware + utensils
 
 
+def tool_in_direction(tool, tool_tokenized, direction, tokenized):
+    if tool not in direction:
+        return False
+    for word in tool_tokenized:
+        if word not in tokenized:
+            return False
+    return True
+
+
 def scrape_tools(directions):
     nlp = spacy.load('en_core_web_sm')
     found_tools = []
     for direction in directions:
-        # print(direction)
         tokenized = re.findall(r"\w+", direction)
         for tool in tools:
             tool_tokenized = re.findall(r"\w+", tool)
-            if tool in tokenized and tool not in found_tools:
+            if tool_in_direction(tool, tool_tokenized, direction, tokenized) and tool not in found_tools:
                 i = tokenized.index(tool_tokenized[0])
                 prev = tokenized[i-1]
                 doc = nlp('My ' + prev + ' ' + tool)
-                # print(doc)
                 tag = doc[1].pos_
 
                 'Add on any adjectives before the tool'
