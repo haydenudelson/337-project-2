@@ -2,7 +2,7 @@ def tag_things(direction, list_of_things):
     list_of_things = sorted(list_of_things, key=len, reverse=True)
     for i in range(len(list_of_things)):
         thing = list_of_things[i]
-        if ' ' + thing + ' ' in direction:
+        if ' ' + thing + ' ' in direction or ' ' + thing + '.' in direction:
             direction = direction.replace(thing, '\\*' + str(i) + '*\\')
     for i in range(len(list_of_things)):
         thing = list_of_things[i]
@@ -19,10 +19,8 @@ def scrape_steps(directions, tools, ingredients, methods):
             direction = direction.replace('  ', ' ')
         if direction in ['', ' ']:
             continue
-        direction = tag_things(direction, tools)
-        direction = tag_things(direction, ingredients)
-        direction = tag_things(direction, methods)
+        to_tag = tools + list(ingredients.keys()) + methods
+        new_direction = tag_things(direction, to_tag)
 
-        steps.append(direction)
-    # print(steps)
+        steps.append(new_direction)
     return steps
