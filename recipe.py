@@ -1,6 +1,7 @@
 from pprint import PrettyPrinter
 from recipe_parser import parsed_recipe
 from recipe_transformer import transform_recipe
+from fractions import Fraction
 
 
 def print_recipe(input_recipe):
@@ -9,18 +10,55 @@ def print_recipe(input_recipe):
     tools = input_recipe['tools']
     methods = input_recipe['methods']
     steps = input_recipe['steps']
+    print('\nIngredients\n')
+    for ingredient in ingredients:
+        desc = ingredients[ingredient]['Descriptor']
+        meas = ingredients[ingredient]['Measurement']
+        prep = ingredients[ingredient]['Preparation']
+        quantity = ingredients[ingredient]['Quantity']
+        to_print = ''
+        if quantity != 'to taste':
+            if quantity % 1 and quantity > 1:
+                to_print += str(int(quantity - (quantity % 1))) + ' '
+                to_print += str(Fraction(quantity % 1)) + ' '
+            else:
+                to_print += str(Fraction(quantity)) + ' '
+        if meas:
+            to_print += meas + ' '
+        if prep:
+            to_print += prep + ' '
+        if desc:
+            to_print += desc + ' '
+        to_print += ingredient
+        if quantity == 'to taste':
+            to_print += ' (to taste)'
+        print(to_print)
 
-    print('Ingredients: ')
-    pp.pprint(ingredients)
+    print('\nTools')
+    to_print = ''
+    first_tool = True
+    for tool in tools:
+        if first_tool:
+            to_print += tool
+            first_tool = False
+        else:
+            to_print += ', ' + tool
+    print(to_print)
 
-    print('Tools: ')
-    pp.pprint(tools)
+    print('\nMethods')
+    to_print = ''
+    first_method = True
+    for method in methods:
+        if first_method:
+            to_print += method
+            first_method = False
+        else:
+            to_print += ', ' + method
+    print(to_print)
 
-    print('Methods: ')
-    pp.pprint(methods)
-
-    print('Steps: ')
-    pp.pprint(steps)
+    print('\n\nSteps\n')
+    for step in range(len(steps)):
+        print('Step ' + str(step + 1) + '. ' + steps[step])
 
 
 options_list = ['To vegetarian',
