@@ -10,7 +10,8 @@ def print_recipe(input_recipe):
     tools = input_recipe['tools']
     methods = input_recipe['methods']
     steps = input_recipe['steps']
-    print('\nIngredients\n')
+    
+    print('\nIngredients')
     for ingredient in ingredients:
         desc = ingredients[ingredient]['Descriptor']
         meas = ingredients[ingredient]['Measurement']
@@ -56,9 +57,21 @@ def print_recipe(input_recipe):
             to_print += ', ' + method
     print(to_print)
 
-    print('\n\nSteps\n')
+    print('\nSteps')
     for step in range(len(steps)):
         print('Step ' + str(step + 1) + '. ' + steps[step])
+
+
+def print_changes(changed):
+    print('\nChanges During Transformation')
+    if not changed:
+        print('None')
+        return
+    if isinstance(changed, str):
+        print(changed)
+    else:
+        for change in changed:
+            print('Substituted ' + change[1] + ' for ' + change[0])
 
 
 options_list = ['To vegetarian',
@@ -92,8 +105,8 @@ while True:
 
     print('You chose: ' + choice)
 
-    print(recipe)
-    recipe = transform_recipe(recipe, choice)
+    recipe, changes = transform_recipe(recipe, choice)
+    print_changes(changes)
     print_recipe(recipe)
 
     choice = input('Would like to continue transforming the recipe or start from scratch with a new recipe?\n'
