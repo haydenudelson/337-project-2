@@ -1,5 +1,4 @@
 import copy
-
 sample_recipe = {
     'ingredients':{
         'name':{
@@ -21,8 +20,7 @@ to_vegan_list = {
     "scrambled egg": "tofu scramble",
     "egg": "oat flour", "eggs": "oat flour",
     "butter":"olive oil",
-    "cheese":"tofu (crumbled)",
-
+    "cheese":"tofu (crumbled)"
 }
 
 to_vegetarian_list = {
@@ -42,6 +40,7 @@ to_vegetarian_list = {
     "hamburger":"veggie burger",
     "sausage":"glamorgan sausage",
     "pork":"jackfruit",
+    "pork tenderloin": "jackfruit",
     "pepperoni":"vegetable deli slice",
     "pastrami":"vegetable deli slice",
     "chicken breast":"tofu",
@@ -67,7 +66,16 @@ to_vegetarian_list = {
 
 from_vegetarian_list ={
     "vegetable broth":"chicken broth",
-    "vegetable bouillon":"chicken bouillon"
+    "vegetable bouillon":"chicken bouillon",
+    "tempeh": "chicken",
+    "jackfruit": "pork",
+    "tofurkey":"turkey",
+    "soy protein":"ground beef",
+    "king oyster mushroom":"scallop",
+    "vegetable deli slice":"pepperoni",
+    "veggie meatball":"meatball",
+    "veggie bacon":"bacon",
+    "veggie burger":"burger"
 }
 
 #based in part on https://www.thespruceeats.com/chinese-cooking-ingredient-substitutions-4057957
@@ -126,6 +134,19 @@ to_healthy_list = {
     "canola oil":"olive oil"
 }
 
+from_healthy_list: {
+    "brown rice":"white rice",
+    "egg white":"egg",
+    "egg whites":"eggs",
+    "olive oil":"butter"
+}
+
+healthy_words = ["lowfat", "low fat", "low-fat",
+                 "fatfree", "fat free", "fat-free",
+                 "reduced fat",
+                 "sugar free", "sugar-free",
+                 "multigrain", "multi grain", "multi-grain"]
+
 
 class Transformer:
     def replace_ingredient(self, recipe, old_ing, new_ing):
@@ -136,70 +157,38 @@ class Transformer:
             recipe["steps"][i] = step.replace(old_ing, new_ing)
         return recipe
 
+    def transform_on_list(self, recipe, list):
+        ingredients = copy.deepcopy(recipe["ingredients"])
+
+        for ing in recipe["ingredients"].keys():
+            for item in list:
+                if item in ing:
+                    ingredients[list[item]] = ingredients.pop(ing)
+                    for j in range(len(recipe["steps"])):
+                        step = recipe["steps"][j]
+                        recipe["steps"][j] = step.replace(item, list[item])
+                    break
+
+        recipe["ingredients"] = ingredients
+        return recipe
+
     def to_vegetarian(self, recipe):
         # look at list of ingredients for meats
         # find corresponding step and replace meat ingredient with appropriate substitute
 
-        # print(recipe["steps"])
-
-        ingredients = recipe["ingredients"].keys()
-        changed_ingredients = []
-        for i in ingredients:
-            if i in to_vegetarian_list:
-                changed_ingredients.append([i, to_vegetarian_list[i]])
-        for changed in changed_ingredients:
-            old_i = changed[0]
-            new_i = changed[1]
-            recipe = self.replace_ingredient(recipe, old_i, new_i)
-
-        # print(recipe["steps"])
-
-        return recipe
+        return self.transform_on_list(recipe, to_vegetarian_list)
 
     def from_vegetarian(self, recipe):
-        ingredients = recipe["ingredients"].keys()
-
-        changed_ingredients = []
-        for i in ingredients:
-            if i in from_vegetarian_list:
-                changed_ingredients.append([i, from_vegetarian_list[i]])
-        for changed in changed_ingredients:
-            old_i = changed[0]
-            new_i = changed[1]
-            recipe = self.replace_ingredient(recipe, old_i, new_i)
-
-        return recipe
+        return self.transform_on_list(recipe, from_vegetarian_list)
 
     def to_healthy(self, recipe):
-        ingredients = recipe["ingredients"].keys()
-
-        changed_ingredients = []
-        for i in ingredients:
-            if i in to_healthy_list:
-                changed_ingredients.append([i, to_healthy_list[i]])
-        for changed in changed_ingredients:
-            old_i = changed[0]
-            new_i = changed[1]
-            recipe = self.replace_ingredient(recipe, old_i, new_i)
-
-        return recipe
+        return self.transform_on_list(recipe, to_healthy_list)
 
     def from_healthy(self, recipe):
-        return recipe
+        return self.transform_on_list(recipe, from_healthy_list)
 
     def to_chinese(self, recipe):
-        ingredients = recipe["ingredients"].keys()
-
-        changed_ingredients = []
-        for i in ingredients:
-            if i in to_chinese_list:
-                changed_ingredients.append([i, to_chinese_list[i]])
-        for changed in changed_ingredients:
-            old_i = changed[0]
-            new_i = changed[1]
-            recipe = self.replace_ingredient(recipe, old_i, new_i)
-
-        return recipe
+        return self.transform_on_list(recipe, to_chinese_list)
 
     def double(self, recipe):
         for ingredient in recipe['ingredients']:
@@ -216,16 +205,5 @@ class Transformer:
         return recipe
 
     def to_vegan(self, recipe):
-        recipe = self.to_vegetarian(recipe)
-        ingredients = recipe["ingredients"].keys()
-
-        changed_ingredients = []
-        for i in ingredients:
-            if i in to_vegan_list:
-                changed_ingredients.append([i, to_vegan_list[i]])
-        for changed in changed_ingredients:
-            old_i = changed[0]
-            new_i = changed[1]
-            recipe = self.replace_ingredient(recipe, old_i, new_i)
-
-        return recipe
+        temp_recipe = self.transform_on_list(recipe, to_vegetarian_list)
+        return self.transform_on_list(temp_recipe, to_vegan_list)
