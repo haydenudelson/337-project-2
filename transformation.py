@@ -57,6 +57,7 @@ to_vegetarian_list = {
     "turkey":"tofurkey",
     "tuna":"tempeh",
     "salmon":"tempeh",
+    "scallop": "king oyster mushroom",
     "spam":"soy protein",
     "crab":"tofu",
     "haddock":"tempeh",
@@ -144,8 +145,8 @@ class Transformer:
         ingredients = recipe["ingredients"].keys()
         changed_ingredients = []
         for i in ingredients:
-            if i in to_vegetarian:
-                changed_ingredients.append([i, to_vegetarian[i]])
+            if i in to_vegetarian_list:
+                changed_ingredients.append([i, to_vegetarian_list[i]])
         for changed in changed_ingredients:
             old_i = changed[0]
             new_i = changed[1]
@@ -160,8 +161,8 @@ class Transformer:
 
         changed_ingredients = []
         for i in ingredients:
-            if i in from_vegetarian:
-                changed_ingredients.append([i, from_vegetarian[i]])
+            if i in from_vegetarian_list:
+                changed_ingredients.append([i, from_vegetarian_list[i]])
         for changed in changed_ingredients:
             old_i = changed[0]
             new_i = changed[1]
@@ -174,8 +175,8 @@ class Transformer:
 
         changed_ingredients = []
         for i in ingredients:
-            if i in to_healthy:
-                changed_ingredients.append([i, to_healthy[i]])
+            if i in to_healthy_list:
+                changed_ingredients.append([i, to_healthy_list[i]])
         for changed in changed_ingredients:
             old_i = changed[0]
             new_i = changed[1]
@@ -191,8 +192,8 @@ class Transformer:
 
         changed_ingredients = []
         for i in ingredients:
-            if i in to_chinese:
-                changed_ingredients.append([i, to_chinese[i]])
+            if i in to_chinese_list:
+                changed_ingredients.append([i, to_chinese_list[i]])
         for changed in changed_ingredients:
             old_i = changed[0]
             new_i = changed[1]
@@ -220,8 +221,8 @@ class Transformer:
 
         changed_ingredients = []
         for i in ingredients:
-            if i in to_vegan:
-                changed_ingredients.append([i, to_vegan[i]])
+            if i in to_vegan_list:
+                changed_ingredients.append([i, to_vegan_list[i]])
         for changed in changed_ingredients:
             old_i = changed[0]
             new_i = changed[1]
