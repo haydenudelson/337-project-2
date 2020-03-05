@@ -135,7 +135,7 @@ to_healthy_list = {
     "canola oil": "olive oil"
 }
 
-from_healthy_list: {
+from_healthy_list = {
     "brown rice":"white rice",
     "egg white":"egg",
     "egg whites":"eggs",

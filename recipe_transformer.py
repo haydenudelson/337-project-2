@@ -16,10 +16,8 @@ def transform_recipe(recipe, transformation):
         new_recipe, changes = rt.to_healthy(recipe)
         return new_recipe, changes
     elif transformation == 'From healthy to un-healthy':
-        print(transformation + ' not implemented yet')
-        return recipe, 'None'
-        # new_recipe = rt.from_healthy(recipe)
-        # return new_recipe, changes
+        new_recipe, changes = rt.from_healthy(recipe)
+        return new_recipe, changes
     elif transformation == 'Double the recipe':
         new_recipe, changes = rt.double(recipe)
         return new_recipe, changes
